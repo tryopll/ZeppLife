@@ -1,0 +1,22 @@
+name: Keep Alive
+
+on:
+  workflow_dispatch: # 允许你手动触发，方便测试
+  schedule:
+    - cron: "0 0 * * *" # 每天自动检查一次
+
+jobs:
+  keep_alive:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # 需要这个权限来创建和推送提交
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Keep Alive
+        uses: pagopa/dx/actions/keep-alive@main
+        with:
+          # 推荐使用 PAT（个人访问令牌），而不是默认的 GITHUB_TOKEN
+          bot_token: ${{ secrets.KEEPALIVE_TOKEN }}
